@@ -30,3 +30,28 @@
 
 ;; 1.4
 
+
+;; 1.5
+(define (p) (p))
+
+(define (test x y)
+  (if (= x 0)
+      0
+      y))
+
+(test 0 (p))
+
+
+
+
+;; 1.6
+
+
+
+
+(define (sqrt-iter guess x)
+  (if (good-enough? guess x)
+      guess
+      (sqrt-iter (improve guess x)
+                 x)))
+
