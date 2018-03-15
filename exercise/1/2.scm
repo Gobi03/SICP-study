@@ -65,3 +65,26 @@
       (+ (pascal (- n 1) (- k 1))
          (pascal (- n 1) k))))
 
+;; 1.16
+
+(define (fast-expt b n)
+  (define (square n)
+    (* n n))
+  (define (fast-expt-iter cnt res a)
+    (cond ((= cnt 0) res)
+          ((even? cnt) (fast-expt-iter (/ cnt 2) res (square a)))
+          (else (fast-expt-iter (- cnt 1) (* a res) a))))
+  (fast-expt-iter n 1 b))
+
+
+;; 1.17
+(define (* a b)
+  (if (= b 0)
+      0
+      (+ a (* a (- b 1)))))
+
+(define (double n)
+  (* n n))
+
+(define (halve n)
+  )
