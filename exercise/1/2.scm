@@ -66,15 +66,20 @@
          (pascal (- n 1) k))))
 
 ;; 1.16
-
+; b^n
 (define (fast-expt b n)
   (define (square n)
     (* n n))
-  (define (fast-expt-iter cnt res a)
-    (cond ((= cnt 0) res)
-          ((even? cnt) (fast-expt-iter (/ cnt 2) res (square a)))
-          (else (fast-expt-iter (- cnt 1) (* a res) a))))
-  (fast-expt-iter n 1 b))
+  (define (fast-expt-iter acc1 acc2 cnt)
+    (cond ((= cnt 0) 1)
+          ((= cnt 1) (* acc1 acc2))
+          ((even? cnt) (fast-expt-iter acc1
+                                       (square acc2)
+                                       (/ cnt 2)))
+          (else (fast-expt-iter (* acc1 acc2)
+                                acc2
+                                (- cnt 1)))))
+  (fast-expt-iter 1 b n))
 
 
 ;; 1.17
@@ -84,7 +89,39 @@
       (+ a (* a (- b 1)))))
 
 (define (double n)
-  (* n n))
+  (* n 2))
 
 (define (halve n)
-  )
+  (/ n 2))
+
+(define (fast-expt b n)
+  (define (fast-expt-iter acc1 acc2 cnt)
+    (cond ((= cnt 0) 1)
+          ((= cnt 1) (* acc2 acc1))
+          ((even? cnt) (fast-expt-iter acc1
+                                       (* acc2 acc2)
+                                       (halve cnt)))
+          (else (fast-expt-iter (* acc2 acc1)
+                                acc2
+                                (- cnt 1)))))
+  (fast-expt-iter 1 b n))
+
+
+;; 1.18
+; a * b
+(define (mult-iter a b)
+  (define (double n)
+    (* n 2))
+  (define (halve n)
+    (/ n 2))
+  (define (calc acc1 acc2 y)
+    (cond ((= y 0) 0)
+          ((= y 1) (+ acc1 acc2))
+          ((even? y) (calc (double acc1)
+                           acc2
+                           (halve y)))
+          (else (calc acc1
+                      (+ acc2 acc1)
+                      (- y 1)))))
+  (calc a 0 b))
+
