@@ -70,41 +70,31 @@
 (define (fast-expt b n)
   (define (square n)
     (* n n))
-  (define (fast-expt-iter acc1 acc2 cnt)
-    (cond ((= cnt 0) 1)
-          ((= cnt 1) (* acc1 acc2))
-          ((even? cnt) (fast-expt-iter acc1
-                                       (square acc2)
+  (define (fast-expt-iter a b cnt)
+    (cond ((= cnt 0) a)
+          ((even? cnt) (fast-expt-iter a
+                                       (square b)
                                        (/ cnt 2)))
-          (else (fast-expt-iter (* acc1 acc2)
-                                acc2
+          (else (fast-expt-iter (* a b)
+                                b
                                 (- cnt 1)))))
   (fast-expt-iter 1 b n))
 
 
 ;; 1.17
-(define (* a b)
+(define (mult_by_add a b)
   (if (= b 0)
       0
-      (+ a (* a (- b 1)))))
-
+      (+ a (mult_by_add a (- b 1)))))
 (define (double n)
   (* n 2))
-
 (define (halve n)
   (/ n 2))
 
-(define (fast-expt b n)
-  (define (fast-expt-iter acc1 acc2 cnt)
-    (cond ((= cnt 0) 1)
-          ((= cnt 1) (* acc2 acc1))
-          ((even? cnt) (fast-expt-iter acc1
-                                       (* acc2 acc2)
-                                       (halve cnt)))
-          (else (fast-expt-iter (* acc2 acc1)
-                                acc2
-                                (- cnt 1)))))
-  (fast-expt-iter 1 b n))
+(define my_mult a b
+  (cond ((= cnt 0) a)
+        ))
+  
 
 
 ;; 1.18
@@ -125,3 +115,21 @@
                       (- y 1)))))
   (calc a 0 b))
 
+
+;; 1.19
+(define (fib n)
+  (fib-iter 1 0 0 1 n))
+
+(define (fib-iter a b p q count)
+  (cond ((= count 0) b)
+        ((even? count)
+         (fib-iter a
+                   b
+                   <??>      ; compute p'
+                   <??>      ; compute q'
+                   (/ count 2)))
+        (else (fib-iter (+ (* b q) (* a q) (* a p))
+                        (+ (* b p) (* a q))
+                        p
+                        q
+                        (- count 1)))))
