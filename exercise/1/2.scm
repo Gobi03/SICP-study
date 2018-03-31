@@ -86,34 +86,30 @@
   (if (= b 0)
       0
       (+ a (mult_by_add a (- b 1)))))
+
 (define (double n)
   (* n 2))
 (define (halve n)
   (/ n 2))
 
-(define my_mult a b
-  (cond ((= cnt 0) a)
-        ))
-  
+(define (my_mult a b)
+  (cond ((= b 0) 0)
+        ((even? b) (double (my_mult a (halve b))))
+        (else (+ a (my_mult a (- b 1))))))
 
 
 ;; 1.18
 ; a * b
-(define (mult-iter a b)
-  (define (double n)
-    (* n 2))
-  (define (halve n)
-    (/ n 2))
-  (define (calc acc1 acc2 y)
-    (cond ((= y 0) 0)
-          ((= y 1) (+ acc1 acc2))
-          ((even? y) (calc (double acc1)
-                           acc2
-                           (halve y)))
-          (else (calc acc1
-                      (+ acc2 acc1)
-                      (- y 1)))))
-  (calc a 0 b))
+(define (my_mult_iter a b)
+  (define (calc a b cnt)
+    (cond ((= cnt 0) a)
+          ((even? cnt) (calc a
+                             (double b)
+                             (halve cnt)))
+          (else (calc (+ a b)
+                      b
+                      (- cnt 1)))))
+  (calc 0 a b))
 
 
 ;; 1.19
