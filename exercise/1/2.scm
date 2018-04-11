@@ -113,6 +113,34 @@
 
 
 ;; 1.19
+;; simple
+(define (fib n)
+  (fib-iter 1 0
+            1 1 1 0
+            n))
+
+;; a b
+;; c d
+(define (fib-iter x y
+                  a b c d
+                  count)
+  (cond ((= count 0) y)
+        ((even? count)
+         (fib-iter x
+                   y
+                   (+ (* a a) (* b c))
+                   (+ (* a b) (* b d))
+                   (+ (* c a) (* d c))
+                   (+ (* c b) (* d d))
+                   (/ count 2)))
+        (else (fib-iter (+ (* a x) (* b y))
+                        (+ (* c x) (* d y))
+                        a b c d
+                        (- count 1)))))
+
+
+
+;; generalized
 (define (fib n)
   (fib-iter 1 0 0 1 n))
 
@@ -121,8 +149,8 @@
         ((even? count)
          (fib-iter a
                    b
-                   <??>      ; compute p'
-                   <??>      ; compute q'
+                   (+ (* q q) (* p p))
+                   (+ (* q q) (* 2 (* p q)))
                    (/ count 2)))
         (else (fib-iter (+ (* b q) (* a q) (* a p))
                         (+ (* b p) (* a q))
