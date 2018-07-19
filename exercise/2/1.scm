@@ -96,3 +96,21 @@
 
 (define two
   (lambda (f) (lambda (x) (f (f x)))))
+
+(define (add n m)
+  (lambda (f) (lambda (x)
+                ((m f) ((n f) x)))))
+
+
+(define (incr n)
+  (+ n 1))
+
+
+
+;; 2.8
+(define (make-interval a b) (cons a b))
+
+;; 2.8
+(define (sub-interval x y)
+  (make-interval (- (lower-bound x) (lower-bound y))
+                 (- (upper-bound x) (upper-bound y))))
