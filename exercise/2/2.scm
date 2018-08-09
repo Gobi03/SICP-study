@@ -35,3 +35,25 @@
 (reverse (list 1 4 9 16 25))
 (25 16 9 4 1)
 
+
+;; 2.20
+(define (same-parity a . lst)
+  (define (func rest)
+    (if (null? rest)
+        '()
+        (if (= (modulo (car rest) 2) (modulo a 2))
+            (cons (car rest) (func (cdr rest)))
+            (func (cdr rest)))))
+  (func (cons a lst)))
+
+(same-parity 1 2 3 4 5 6 7)
+(same-parity 2 3 4 5 6 7)
+
+
+;; 2.23
+(define (for-each f lst)
+  (map f lst)
+  '())
+
+(for-each (lambda (x) (newline) (display x))
+          (list 57 321 88))
