@@ -57,3 +57,32 @@
 
 (for-each (lambda (x) (newline) (display x))
           (list 57 321 88))
+
+
+
+(define x (cons (list 1 2) (list 3 4)))
+
+(define (count-leaves x)
+  (cond ((null? x) 0)  
+        ((not (pair? x)) 1)
+        (else (+ (count-leaves (car x))
+                 (count-leaves (cdr x))))))
+
+(count-leaves x)
+
+
+;; 2.25
+(car (cdaddr '(1 3 (5 7) 9)))
+(caar '((7)))
+(cadadr (cadadr (cadadr '(1 (2 (3 (4 (5 (6 7)))))))))
+
+
+;; 2.27
+(define (deep-reverse lst)
+  (if (pair? lst)
+      (reverse (map deep-reverse lst))
+      lst))
+
+(define x
+  (list (list 1 2) (list 3 4)))
+(deep-reverse x)
