@@ -86,3 +86,47 @@
 (define x
   (list (list 1 2) (list 3 4)))
 (deep-reverse x)
+
+
+
+
+;; 2.30
+(define (square n)
+  (* n n))
+
+(define (square-tree tree)
+  (map (lambda (sub-tree)
+         (if (pair? sub-tree)
+             (square-tree sub-tree)
+             (* sub-tree sub-tree)))
+       tree))
+
+
+(square-tree
+ (list 1
+       (list 2 (list 3 4) 5)
+       (list 6 7)))
+
+
+;; 2.31
+(define (tree-map f tree)
+  (map (lambda (sub-tree)
+         (if (pair? sub-tree)
+             (tree-map f sub-tree)
+             (f sub-tree)))
+       tree))
+
+
+(define (square-tree tree)
+  (tree-map square tree))
+
+
+;; 2.32
+(define (subsets s)
+  (if (null? s)
+      (list nil)
+      (let ((rest (subsets (cdr s))))
+        (append rest
+                (map (lambda (set)
+                       (cons (car s) set))
+                     rest)))))
