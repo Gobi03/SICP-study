@@ -130,3 +130,54 @@
                 (map (lambda (set)
                        (cons (car s) set))
                      rest)))))
+
+
+(define (accumulate op initial sequence)
+  (if (null? sequence)
+      initial
+      (op (car sequence)
+          (accumulate op initial (cdr sequence)))))
+
+
+;; 2.33
+(define (map p sequence)
+  (accumulate (lambda (x y) (cons (p x) y))
+              nil
+              sequence))
+
+(define (append seq1 seq2)
+  (accumulate cons
+              seq2
+              seq1))
+
+(define (length sequence)
+  (accumulate (lambda (x y) (+ y 1)) 0 sequence))
+
+
+(map (lambda (x) (+ x 1)) '(1 2 3))
+(append '(1 2 3) '(4 5 6))
+(length '(1 2 3))
+
+
+;; 2.34
+(define (horner-eval x coefficient-sequence)
+  (accumulate (lambda (this-coeff higher-terms)
+                (+ this-coeff (* x higher-terms)))
+              0
+              coefficient-sequence))
+
+(horner-eval 2 (list 1 3 0 5 0 1))
+
+
+;; 2.35
+(define (count-leaves x)
+  (cond ((null? x) 0)
+        ((not (pair? x)) 1)
+        (else (+ (count-leaves (car x))
+                 (count-leaves (cdr x))))))
+
+
+(define (count-leaves t)
+  (accumulate (??)
+              (??)
+              (map (??) (??))))
