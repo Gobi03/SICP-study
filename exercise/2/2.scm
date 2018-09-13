@@ -181,3 +181,52 @@
   (accumulate (??)
               (??)
               (map (??) (??))))
+
+
+;; 2.36
+(define (accumulate op initial sequence)
+  (if (null? sequence)
+      initial
+      (op (car sequence)
+          (accumulate op initial (cdr sequence)))))
+
+
+(define (accumulate-n op init seqs)
+  (if (null? (car seqs))
+      '()
+      (cons (accumulate op init (map car seqs))
+            (accumulate-n op init (map cdr seqs)))))
+
+(define s
+  '((1 2 3) (4 5 6) (7 8 9) (10 11 12)))
+
+(accumulate-n + 0 s)
+
+
+;; 2.37
+(define mat
+  '((1 2 3 4) (4 5 6 6) (6 7 8 9)))
+
+
+(define (dot-product v w)
+  (accumulate + 0 (map * v w)))
+
+(dot-product v w)
+
+(define (matrix-*-vector m v)
+  (map (dot-product v) m))
+
+(define (transpose mat)
+  (accumulate-n cons '() mat))
+
+(define (matrix-*-matrix m n)
+  (let ((cols (transpose n)))
+    (map (matrix-*-vector cols) m)))
+
+
+;; 2.38
+(define (reverse sequence)
+  (foldr (lambda (x y) (append y (list x))) null sequence))
+
+(define (reverse sequence)
+  (foldl (lambda (x y) (cons x y)) null sequence))
