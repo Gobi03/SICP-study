@@ -33,3 +33,28 @@
    (goto (label test-b))
  gcd-done)
 
+
+;; 1.4
+(controller
+   (assign continue (label fact-done))     ; 最終帰り番地設定
+ fact-loop
+   (test (op =) (reg n) (const 1))
+   (branch (label base-case))
+   ;;nとcontinueを退避し再帰呼出しを設定する.
+   ;; 再帰呼出しから戻る時after-fact}から
+   ;; 計算が続行するようにcontinueを設定
+   (save continue)
+   (save n)
+   (assign n (op -) (reg n) (const 1))
+   (assign continue (label after-fact))
+   (goto (label fact-loop))
+ after-fact
+   (restore n)
+   (restore continue)
+   (assign val (op *) (reg n) (reg val))   ; valに n(n-1)!がある
+   (goto (reg continue))                   ; 呼出し側に戻る
+ base-case
+   (assign val (const 1))                  ; 基底の場合: 1!=1
+   (goto (reg continue))                   ; 呼出し側に戻る
+ fact-done)
+
